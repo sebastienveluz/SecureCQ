@@ -18,6 +18,9 @@ import org.apache.http.protocol.ExecutionContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
 public class HttpHelper {
 
 	private final DefaultHttpClient client;
@@ -90,5 +93,14 @@ public class HttpHelper {
 		}
 		return baseUrl;
 	}
-
+	
+	public Boolean getJsonBooleanValue(String json, String attribute) {
+		JsonParser parser = new JsonParser();
+		JsonElement element = parser.parse(json);
+		try {
+			return Boolean.valueOf(element.getAsJsonObject().get(attribute).getAsString());
+		} catch (Exception e){
+			return false;
+		}
+	}
 }
